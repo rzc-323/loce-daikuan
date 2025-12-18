@@ -1,0 +1,36 @@
+# Railway Configuration File for 贷款客户管理系统CRM
+
+# 项目元数据
+[project]
+name = "daikuan-crm"
+description = "贷款客户管理系统CRM - 客户数据管理、批量操作、权限控制"
+
+# 服务配置
+[service]
+# 服务名称
+service_name = "daikuan-crm-api"
+# 启动命令
+start_command = "java -jar target/daikuan-crm-0.0.1-SNAPSHOT.jar"
+# 构建命令
+build_command = "mvn clean package -DskipTests"
+
+# 环境变量
+[env]
+# Java版本
+JAVA_VERSION = "17"
+# Spring Boot配置文件
+SPRING_PROFILES_ACTIVE = "prod"
+
+# 端口配置
+[network]
+# Railway默认使用8080端口，但我们需要确保应用监听正确的端口
+port = 8080
+# 允许所有IP访问
+public = true
+
+# 数据库配置（Railway会自动提供DATABASE_URL环境变量）
+[database]
+# 类型
+type = "mysql"
+# 自动创建数据库
+auto_create = true
