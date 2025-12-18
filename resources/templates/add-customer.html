@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贷款客户管理系统 - 添加客户</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">贷款CRM系统</a>
+            <ul class="navbar-nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/customers">客户列表</a></li>
+                <li><a href="/customers/add">添加客户</a></li>
+                <th:block th:if="${currentUser.role.name() == 'ADMIN'}">
+                    <li><a href="/admin/users">员工管理</a></li>
+                    <li><a href="/customer-pool">客户公海</a></li>
+                </th:block>
+                <li>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <button type="submit" class="logout-btn">退出登录</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="form-container">
+            <h3>添加客户</h3>
+            <form th:action="@{/customers/add}" method="post" th:object="${customer}">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">姓名 <span style="color: red;">*</span></label>
+                        <input type="text" id="name" th:field="*{name}" required>
+                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">电话号码 <span style="color: red;">*</span></label>
+                        <input type="text" id="phone" th:field="*{phone}" required>
+                        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></span>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="housingFund">公积金</label>
+                        <input type="text" id="housingFund" th:field="*{housingFund}">
+                    </div>
+                    <div class="form-group">
+                        <label for="businessLicense">营业执照</label>
+                        <input type="text" id="businessLicense" th:field="*{businessLicense}">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="salary">打卡工资</label>
+                        <input type="text" id="salary" th:field="*{salary}">
+                    </div>
+                    <div class="form-group">
+                        <label for="property">房产</label>
+                        <input type="text" id="property" th:field="*{property}">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="carProperty">车产</label>
+                        <input type="text" id="carProperty" th:field="*{carProperty}">
+                    </div>
+                    <div class="form-group">
+                        <label for="processStatus">当前阶段</label>
+                        <select id="processStatus" th:field="*{processStatus}">
+                            <option th:each="status : ${processStatuses}" 
+                                    th:value="${status}" 
+                                    th:text="${status.chineseName}"></option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nextFollowUpDate">下次跟进时间</label>
+                    <input type="date" id="nextFollowUpDate" th:field="*{nextFollowUpDate}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="remarks">备注</label>
+                    <textarea id="remarks" th:field="*{remarks}" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <a href="/customers" class="btn btn-secondary">取消</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
